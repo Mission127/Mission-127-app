@@ -28,72 +28,64 @@ export default function Home() {
 
   async function addNeed() {
     if (!title.trim()) return;
-    await supabase.from("needs").insert({ title, story: story || "", status: "open" });
-    setTitle("");
-    setStory("");
+    await supabase.from("needs").insert({ title, story: story || "No details", status: "open" });
+    setTitle(""); setStory("");
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section - Mirror CarePortal */}
-      <div className="bg-red-50 py-20 text-center">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6">Connect Churches to Children and Families in Crisis</h2>
-          <p className="text-xl text-gray-600 mb-10">Care-sharing technology bringing the Church to the front lines of child welfare</p>
-          <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded-lg text-lg transition">Learn How It Works</button>
+    <>
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-red-950 via-black to-gray-900 py-32">
+        <div className="absolute inset-0 bg-grid-white/5"></div>
+        <div className="relative max-w-5xl mx-auto px-6 text-center">
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 bg-gradient-to-r from-white to-red-400 bg-clip-text text-transparent">
+            Pure Religion<br />in Action
+          </h1>
+          <p className="text-2xl md:text-3xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            “To look after orphans and widows in their distress…” — James 1:27
+          </p>
+          <div className="mt-12">
+            <button className="bg-red-600 hover:bg-red-700 text-white text-xl font-bold px-12 py-6 rounded-full shadow-2xl transform hover:scale-105 transition">
+              Post a Need Now
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Submit Need Section */}
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
-          <h3 className="text-3xl font-bold text-gray-900 mb-6">Submit a New Need</h3>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Need Title (e.g. Family needs beds for children)"
-            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 mb-4"
-          />
-          <textarea
-            value={story}
-            onChange={(e) => setStory(e.target.value)}
-            placeholder="Details, location, urgency, prayer requests..."
-            rows={5}
-            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
-          />
-          <button onClick={addNeed} className="mt-6 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-md text-lg transition">
-            Submit to Churches
+      {/* Submit Card */}
+      <section className="max-w-4xl mx-auto px-6 -mt-20 relative z-10">
+        <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-10 shadow-2xl border border-white/20">
+          <h2 className="text-4xl font-bold mb-8 text-center">Share a Need</h2>
+          <input value={title} onChange={e=>setTitle(e.target.value)} placeholder="Single mom needs groceries…" className="w-full px-6 py-5 rounded-2xl bg-white/20 text-white placeholder-gray-400 text-xl mb-5 border border-white/30 focus:outline-none focus:ring-4 focus:ring-red-500" />
+          <textarea value={story} onChange={e=>setStory(e.target.value)} placeholder="Details, location, prayer requests…" rows={4} className="w-full px-6 py-5 rounded-2xl bg-white/20 text-white placeholder-gray-400 resize-none border border-white/30 focus:outline-none focus:ring-4 focus:ring-red-500" />
+          <button onClick={addNeed} className="mt-8 w-full py-6 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 rounded-2xl text-2xl font-bold shadow-xl transform hover:scale-105 transition">
+            Send to Churches
           </button>
         </div>
-      </div>
+      </section>
 
-      {/* Needs List Section */}
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <h3 className="text-3xl font-bold text-gray-900 mb-8">Open Needs</h3>
-        <div className="space-y-6">
+      {/* Needs Feed */}
+      <section className="max-w-5xl mx-auto px-6 py-24">
+        <h2 className="text-5xl font-bold text-center mb-16">Current Needs</h2>
+        <div className="grid md:grid-cols-2 gap-10">
           {needs.length === 0 ? (
-            <div className="bg-white rounded-lg shadow-md p-12 text-center border border-gray-200">
-              <p className="text-xl text-gray-600">No open needs at this time</p>
-            </div>
+            <p className="col-span-2 text-center text-3xl text-gray-500 py-20">No active needs right now — praise God!</p>
           ) : (
-            needs.map((need) => (
-              <div key={need.id} className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
-                <div className="flex justify-between items-start mb-4">
-                  <h4 className="text-2xl font-bold text-gray-900">{need.title}</h4>
-                  <span className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm">Open</span>
-                </div>
-                <p className="text-gray-700 text-lg">{need.story || "No details provided."}</p>
-                <div className="mt-6 flex justify-between items-center">
-                  <span className="text-gray-500 text-sm">{new Date(need.created_at).toLocaleString()}</span>
-                  <button className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3 rounded-md text-lg transition">
-                    Respond to Need
+            needs.map(n => (
+              <div key={n.id} className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 hover:border-red-500/50 transition hover:transform hover:scale-105">
+                <h3 className="text-2xl font-bold mb-4">{n.title}</h3>
+                <p className="text-gray-300 text-lg leading-relaxed">{n.story}</p>
+                <div className="mt-8 flex justify-between items-center">
+                  <span className="text-sm text-gray-500">{new Date(n.created_at).toLocaleDateString()}</span>
+                  <button className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-xl font-bold text-lg shadow-lg transition transform hover:scale-105">
+                    We Can Help
                   </button>
                 </div>
               </div>
             ))
           )}
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
-              }
+}
