@@ -83,4 +83,22 @@ export default function Home() {
               <div key={need.id} className="bg-white rounded-2xl shadow-lg border hover:shadow-xl transition p-10">
                 <div className="flex justify-between items-start mb-6">
                   <h3 className="text-2xl font-bold text-gray-900">{need.title}</h3>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">Open
+                  <span className="text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">Open</span>
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">{need.story || "No additional details provided."}</p>
+                <div className="mt-8 flex justify-between items-center">
+                  <span className="text-gray-500">
+                    Posted {new Date(need.created_at).toLocaleDateString()}
+                  </span>
+                  <button className="bg-green-600 hover:bg-green-700 text-white font-bold px-10 py-4 rounded-lg text-lg transition">
+                    Respond to Need
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
+    </div>
+  );
+              }
