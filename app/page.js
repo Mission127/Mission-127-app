@@ -34,35 +34,66 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-10 text-center">
-          <img src="https://ucarecdn.com/2f8f4b8f-9c35-4e1b-9c4f-5d8e8f8e8f8e/-/format/auto/-/quality/smart/mission127-logo-white.png" alt="Mission 1:27" className="h-40 mx-auto" />
-          <h1 className="text-5xl font-bold text-gray-900 mt-6">Mission 1:27</h1>
-          <p className="text-xl text-gray-600 mt-4 max-w-4xl mx-auto">
-            “Pure and undefiled religion before God the Father is this: to care for orphans and widows in their distress…” — James 1:27
-          </p>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Mirror CarePortal */}
+      <div className="bg-red-50 py-20 text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-5xl font-bold text-gray-900 mb-6">Connect Churches to Children and Families in Crisis</h2>
+          <p className="text-xl text-gray-600 mb-10">Care-sharing technology bringing the Church to the front lines of child welfare</p>
+          <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-10 rounded-lg text-lg transition">Learn How It Works</button>
         </div>
-      </header>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        {/* Submit Card */}
-        <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-10 mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Submit a New Need</h2>
-          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Need title…" className="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 mb-6 text-lg" />
-          <textarea value={story} onChange={e => setStory(e.target.value)} placeholder="Details, location, urgency…" rows={6} className="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-lg resize-none" />
-          <button onClick={addNeed} className="mt-8 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-5 rounded-lg text-xl transition">
-            Submit Need
+      {/* Submit Need Section */}
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        <div className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+          <h3 className="text-3xl font-bold text-gray-900 mb-6">Submit a New Need</h3>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Need Title (e.g. Family needs beds for children)"
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 mb-4"
+          />
+          <textarea
+            value={story}
+            onChange={(e) => setStory(e.target.value)}
+            placeholder="Details, location, urgency, prayer requests..."
+            rows={5}
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
+          />
+          <button onClick={addNeed} className="mt-6 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-md text-lg transition">
+            Submit to Churches
           </button>
         </div>
+      </div>
 
-        {/* Needs */}
-        <div className="space-y-8">
+      {/* Needs List Section */}
+      <div className="max-w-4xl mx-auto px-4 py-16">
+        <h3 className="text-3xl font-bold text-gray-900 mb-8">Open Needs</h3>
+        <div className="space-y-6">
           {needs.length === 0 ? (
-            <div className="bg-white rounded-2xl shadow-md p-20 text-center">
-              <p className="text-2xl text-gray-500">No active needs right now</p>
+            <div className="bg-white rounded-lg shadow-md p-12 text-center border border-gray-200">
+              <p className="text-xl text-gray-600">No open needs at this time</p>
             </div>
           ) : (
-            needs.map(n => (
-              <div key
+            needs.map((need) => (
+              <div key={need.id} className="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+                <div className="flex justify-between items-start mb-4">
+                  <h4 className="text-2xl font-bold text-gray-900">{need.title}</h4>
+                  <span className="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm">Open</span>
+                </div>
+                <p className="text-gray-700 text-lg">{need.story || "No details provided."}</p>
+                <div className="mt-6 flex justify-between items-center">
+                  <span className="text-gray-500 text-sm">{new Date(need.created_at).toLocaleString()}</span>
+                  <button className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3 rounded-md text-lg transition">
+                    Respond to Need
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+              }
